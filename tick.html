@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+        <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tick</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Tick</h1>
+        <h2 id="demo">counter:-</h2><br>
+
+        <div class="box">
+            <div class="top">
+                <form id="frmCareer" method="get" action="prjFormEvent.js">
+                    <table id="tblCareer">
+
+                        <th>Directions: Check of the items you think you would enjoy in each section.<br /> Mark as many
+                            items that apply.</th>
+
+                        <tr>
+                            <td><strong><label id="lblRealistic">"R" Section</label></strong>
+                                <div id="realisticTotal"></div>
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic1">Repair a car
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic2">Do wood working
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic3">Refinish furniture
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic3">Refinish furniture
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic3">Refinish furniture
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic4">Explore a forest
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic1">Repair a car
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic2">Do wood working
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic3">Refinish furniture
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic3">Refinish furniture
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic3">Refinish furniture
+                                <br />
+                                <input type="checkbox" name="chkRealistic" onclick="getRealistic()"
+                                    value="chkRealistic4">Explore a forest
+                                <br />
+                        </tr>
+                        </td>
+
+                    </table>
+                    <!--End of tblWhichCareer-->
+                </form>
+                <!--End of frmWhichCareer-->
+
+                
+
+                
+                    <div>
+                        <label for="option1">Option 1</label>
+                        <input type="checkbox" id="option1" name="chkRealistic" onclick="getRealistic()"
+                        value="chkRealistic4">
+                    </div>
+                    <div>
+                        <label for="option2">Option 2</label>
+                        <input type="checkbox" id="option2" name="chkRealistic" onclick="getRealistic()"
+                        value="chkRealistic4">
+                    </div>
+                    <div>
+                        <label for="option3">Option 3</label>
+                        <input type="checkbox" id="option3">
+                    </div>
+                    <button>Check All</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+
+        //Global Variables
+        var getCareer = new Array();
+        getCareer["chkRealistic1"] = 1;
+        getCareer["chkRealistic2"] = 1;
+        getCareer["chkRealistic3"] = 1;
+        getCareer["chkRealistic4"] = 1;
+
+        function getRealistic() {
+            var rTotal = 0;
+            var selectedRealistic = document.forms["frmCareer"]["chkRealistic"];
+
+            for (var sel = 0; sel < selectedRealistic.length; sel++) {
+                if (selectedRealistic[sel].checked)
+                    rTotal += getCareer[selectedRealistic[sel].value]
+            }
+
+            document.getElementById("lblRealistic").innerHTML = rTotal + "/9 Checked"
+        }//End of function getRealisticCareer()
+
+
+
+        var formValues = JSON.parse(localStorage.getItem('formValues')) || {};
+        var $checkboxes = $("#checkbox-container :checkbox");
+        var $button = $("#checkbox-container button");
+
+        
+
+        function updateButtonStatus() {
+            $button.text(allChecked() ? "Uncheck all" : "Check all");
+        }
+
+        function handleButtonClick() {
+            $checkboxes.prop("checked", allChecked() ? false : true)
+        }
+
+        function updateStorage() {
+            $checkboxes.each(function () {
+                formValues[this.id] = this.checked;
+            });
+
+            formValues["buttonText"] = $button.text();
+            localStorage.setItem("formValues", JSON.stringify(formValues));
+        }
+
+        $button.on("click", function () {
+            handleButtonClick();
+            updateButtonStatus();
+            updateStorage();
+        });
+
+        $checkboxes.on("change", function () {
+            updateButtonStatus();
+            updateStorage();
+        });
+
+        // On page load
+        $.each(formValues, function (key, value) {
+            $("#" + key).prop('checked', value);
+        });
+
+        $button.text(formValues["buttonText"]);
+
+    </script>
+</body>
+
+</html>
